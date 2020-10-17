@@ -18,7 +18,9 @@ app.post('/download', jsonParser, async (req, res) => {
     const requestBody = req.body;
 
     const browser = await puppeteer.launch({
-        headless: true
+        headless: true,
+        executablePath: process.env.CHROME_BIN || null,
+        args: ['--no-sandbox', '--headless', '--disable-gpu', '--disable-dev-shm-usage']
     });
     const page = await browser.newPage();
     await page.goto(requestBody.Url);
