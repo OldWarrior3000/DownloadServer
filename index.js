@@ -16,7 +16,7 @@ var jsonParser = bodyParser.json()
 
 app.post('/download', jsonParser, async (req, res) => {
     const requestBody = req.body;
-
+    console.log("Downloading: " + requestBody.Url)
     const browser = await puppeteer.launch({
         headless: true,
         executablePath: process.env.CHROME_BIN || null,
@@ -29,8 +29,11 @@ app.post('/download', jsonParser, async (req, res) => {
 
     res.status(200)
         .send({
-            "Content": content            
+            "Content": content
         });
+    
+    res.end();
+    console.log("Downloaded finished: " + requestBody.Url)
 })
 
 app.listen(port, () => {
