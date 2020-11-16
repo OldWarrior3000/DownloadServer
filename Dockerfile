@@ -1,4 +1,4 @@
-FROM node:current-alpine3.12
+FROM node:14.15.0-alpine3.12
 EXPOSE 8080
 
 ENV CHROME_BIN="/usr/bin/chromium-browser" \
