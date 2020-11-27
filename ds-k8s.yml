@@ -1,0 +1,52 @@
+﻿---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: absorbeo
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ds-deployment
+  namespace: absorbeo
+  labels:
+    kubernetes.labels.app: ds-server
+spec:
+  replicas: 1
+  selector:
+      matchLabels:
+        app: ds-server        
+  template:
+    metadata:
+      labels: 
+        app: ds-server
+    spec:
+      containers:
+      - image: localhost:32000/download-server
+        imagePullPolicy: IfNotPresent
+        name: ds-server
+        ports:
+        - containerPort: 8080
+          name: ds-port        
+        resources:
+          limits:
+            memory: 180Mi
+            cpu: 250m
+          requests:
+            memory: 128Mi
+            cpu: 100m
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: ds-server-svc
+  namespace: absorbeo
+spec:
+  selector:
+    app: ds-server
+  type: LoadBalancer
+  ports:
+  - port: 3000
+    targetPort: 80
