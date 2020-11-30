@@ -95,7 +95,9 @@ app.post('/download', jsonParser, async (req, res) => {
         });
     });
 
-    await page.goto(requestBody.Url, { waitUntil: 'networkidle2', timeout: 0 });
+    // await page.goto(requestBody.Url, { waitUntil: 'networkidle2', timeout: 0 });
+    console.log("Executing goto web page");
+    await page.goto(requestBody.Url);
     const content = await page.content();
     await browser.close();
 
